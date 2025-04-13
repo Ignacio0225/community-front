@@ -1,9 +1,9 @@
 import {Button, useDisclosure, HStack, Text} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import LoginModal from "./LoginModal.tsx";
 import Register from "./Register.tsx";
 import { Link } from "react-router-dom";
+import Profile from "./Profile.tsx";
 
 export default function Header() {
     const [isLogin, setIsLogin] = useState(false); // 로그인 여부
@@ -22,7 +22,13 @@ export default function Header() {
         onClose:onRegisterClose
     } = useDisclosure();
 
-    const navigate = useNavigate(); // 페이지 이동을 위한 훅
+    // Profile 모달 온/오프
+    const{
+        isOpen:isProfileOpen,
+        onOpen:onProfileOpen,
+        onClose:onProfileClose
+    } = useDisclosure();
+
 
     // 컴포넌트가 처음 렌더링될 때 실행  마지막에 ,[] 이거는 딱 1번만 실행하라는 의미
     useEffect(() => {
@@ -102,9 +108,10 @@ export default function Header() {
                 {/*usestate를 통해 저장된 username을 가져옴*/}
                 <Text fontWeight={'bold'}>{username}님 환영합니다</Text>
                 {/*내 정보 보기 버튼*/}
-                <Button colorScheme={"blue"} onClick={()=>navigate("/profile")}>
+                <Button colorScheme={"blue"} onClick={onProfileOpen}>
                     내 정보
                 </Button>
+                    <Profile isOpen={isProfileOpen} onClose={onProfileClose}/>
                 {/*logout 버튼시  handleLogout 함수가 실행되며 토큰을 지우고 islogin을 false로 복구*/}
                 <Button colorScheme={"red"} onClick={handleLogout}>
                     로그아웃
