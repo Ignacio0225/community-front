@@ -5,6 +5,7 @@ import {useEffect, useState,} from "react";
 import Header from "../components/Header.tsx"
 import EditPostModal from "../components/EditPostModal.tsx";
 import axios from "axios";
+import Replies from "../components/Replies.tsx";
 
 export default function Post() {
     interface PostDetail {
@@ -151,7 +152,10 @@ export default function Post() {
             ):(
                 <Text color={"red.500"}>게시글을 불러올 수 없습니다.</Text>
             )}
-
+        <Box pt={4}>
+            <Text pl={5} fontSize={25}>댓글</Text>
+        <Replies/>
+        </Box>
         </Box>
         </Box>
 

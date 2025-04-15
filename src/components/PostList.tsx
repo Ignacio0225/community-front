@@ -12,6 +12,7 @@ interface Post{
     poster:{name:string};
     created_at:string;
     updated_at:string;
+    replies_count: number;
 }
 
 export default function PostList(){
@@ -63,7 +64,7 @@ export default function PostList(){
                 {posts.map((post)=>(
                     // {}이 안에 각각 한번씩 돌면서 json에서 데이터를 뽑아옴
                     <Box key={post.id} p={4} borderWidth={1} borderRadius={'lg'}>
-                        <Heading size={'md'}><Link to={`/post/${post.id}`}>{post.subject}</Link></Heading>
+                        <Heading alignItems={'center'} display={'flex'} size={'md'}><Link to={`/post/${post.id}`}>{post.subject}</Link><Text fontSize={13} pl={5}>  댓글 ({post.replies_count})</Text></Heading>
                         <Text fontSize={'sm'} color={'gray.500'}>
                             {/*poster는 django serializer 때문에 객체로 저장돼있으니 객체로 불러옴*/}
                             {/*toLocaleDateString은 시간 형태의 스트링*/}
