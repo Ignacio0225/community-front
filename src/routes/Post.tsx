@@ -1,13 +1,14 @@
 
 import {Box, Heading, Spinner, VStack, Text, Flex, Button, useDisclosure, useToast, HStack,} from "@chakra-ui/react";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState,} from "react";
+import React, {useEffect, useState,} from "react";
 import Header from "../components/Header.tsx"
 import EditPostModal from "../components/EditPostModal.tsx";
 import axios from "axios";
 import Replies from "../components/Replies.tsx";
 
 export default function Post() {
+
     interface PostDetail {
         id: number;
         subject: string;
@@ -100,6 +101,18 @@ export default function Post() {
         }
     }
 
+    const handleLikeToggle=(e:React.FormEvent)=>{
+        e.preventDefault();
+        const token = localStorage.getItem("access");
+        if (!token) throw new Error("not logged in");
+        axios.post(`http://localhost:8000/api/v1/posts/${id}/likes/`, {
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        }).then()
+    }
+
     return (
         <Box>
             <Flex justify="flex-end" p={4}>
@@ -133,7 +146,7 @@ export default function Post() {
                             id={post.id}
                             initialSubject={post.subject}
                             initialDescription={post.description}
-                            /*모달tsx에 안에 있는 onUpdate에 넣어줄 axios.put을 만듬*/
+                            /*모달tsx에 안에 있는 onUpdate 즉 Update(새로고침같은기능) axios.put을 만듬*/
                             onUpdate={()=>{
                                 const token=localStorage.getItem('access');
                                 axios.get(`http://localhost:8000/api/v1/posts/${id}`,{
